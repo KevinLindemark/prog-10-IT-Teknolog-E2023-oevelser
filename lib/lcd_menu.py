@@ -52,7 +52,6 @@ class LCDMenu:
         self.item = 1
         self.line = 1
         self.list_length = len(self.menu_items) #  the list of files so that it shows on the display
-        self.shift 
         short_list = self.menu_items[self.shift:self.shift+self.total_lines]
                 
         for item in short_list:
