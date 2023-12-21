@@ -7,23 +7,28 @@ når der trykkes skal der stå “Too close på display” og hvis distancen
 er mellem 30CM og 60CM skal der stå “Good distance” og hvis den er over
 60CM skal der stå “Too far”"""
 
-led1 = PWM(Pin(26, Pin.OUT))
+button = Pin(0, Pin.IN)
+
+def check_distance():
+    # dist typecastes til int 
+    dist = ultrasonic.distance_cm()
+    if dist < 30:
+        print("Too close")
+    elif dist >= 30 and dist <=60:
+        print("Good distance")
+    elif dist > 60:
+        print("Too far")
+    else:
+        print("Wrong value check sensor")
+
 ultrasonic = HCSR04(15, 34)
 
 async def distance_brightness_control():
     while True:
-        # dist typecastes til int 
-        dist = ultrasonic.distance_cm()
-        if dist < 30:
-            print("Too close")
-        elif dist >= 30 and dist <=60:
-            print("Good distance")
-        elif dist > 60:
-            print("Too far")
-        else:
-            print("Wrong value check sensor")
+        if button.value() == 0:
+            check_distance()
  
-        await asyncio.sleep_ms(500)
+        await asyncio.sleep_ms(50)
 
 loop = asyncio.new_event_loop()
 loop.create_task(distance_brightness_control())
